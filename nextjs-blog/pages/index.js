@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+
 function Square({ value, onSquareClick }) {
 
   return (
     <button className="square" onClick={onSquareClick}
     >{value}</button>
   );
-
 }
 function calculateWinner(squares) {
   const lines = [
@@ -28,11 +28,22 @@ function calculateWinner(squares) {
   }
   return null;
 }
+function LogButton() {
+  return <button onClick={() => console.log("Button clicked")}>Click me to log</button>;
+}
+
+
 
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
-
+  function resetGame() {
+    setSquares(Array(9).fill(null));
+    setXIsNext(true);
+  }
+  function ResetButton() {
+    return <button onClick={resetGame}>Reset Game</button>;
+  }
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -56,6 +67,7 @@ export default function Board() {
 
   return (
     <>
+
       <div className="status">{status}</div>
       <div style={{ display: 'grid' }}>
         <div className="board-row">
@@ -74,6 +86,7 @@ export default function Board() {
           <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
         </div>
       </div>
+      <ResetButton />
     </>
   );
 }
